@@ -34,6 +34,10 @@ class PeerList(object):
 
         """
 
+        # This isn't just some dumb function,
+        # This should actually handle contacting the nameserver
+        # And receiving the list of peers from it.
+
         self.lock.acquire()
         try:
             #
