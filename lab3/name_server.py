@@ -80,6 +80,10 @@ class NameServer(object):
                           .format((obj_id,obj_type,obj_hash)))
         self.lock.write_release()
         logging.info("NameServer done unregistering peer at {}".format(tuple(obj_hash)))
+		# This function doesn't stop until every peer has been checked.
+        # BUT there's a peer out there waiting for this function to return
+        # Before it can be unregistered.
+        # This is very obnoxious.
         self._check_all_alive(obj_type) # Make sure everyone in our group is still alive
         return "null"
     
