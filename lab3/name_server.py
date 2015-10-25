@@ -87,7 +87,7 @@ class NameServer(object):
         self._check_all_alive(obj_type) # Make sure everyone in our group is still alive
         return "null"
     
-    def require_all(self, obj_type):
+    def get_peers(self, obj_type):
         return list(self._get_group(obj_type))
     
     def _get_group(self, obj_type):
