@@ -57,6 +57,7 @@ class PeerList(object):
                 self.peers[peer_id].register_peer(self.owner.id, self.owner.address)
 
         finally:
+            pass
             
 
     def destroy(self):
