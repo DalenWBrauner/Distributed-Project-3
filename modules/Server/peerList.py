@@ -40,9 +40,20 @@ class PeerList(object):
 
         self.lock.acquire()
         try:
-            #
-            # Your code here.
-            #
+            # Get the owner's access to the name server
+            name_service = self.owner.name_service
+
+            # Get the list of peers from the name service
+            # We get a list of tuples from the name service
+            # of the format (id, addr)
+            peer_set = name_service.get_peers(self.owner.type)
+            
+            # Format the list of tuples into a proper dictionary
+            for peer_tuple in peer_set:
+                peer_id, peer_addr = peer_tuple
+                peers[peer_id] = Stub(peer_addr)
+
+            # 
             pass
         finally:
             self.lock.release()
