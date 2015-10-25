@@ -50,7 +50,10 @@ class PeerList(object):
         except:
             self.lock.release()
             raise
-            
+
+        # We need to make sure we release the lock if things go well, too.
+        self.lock.release()
+        
         # Using the list of tuples, register the peers
         # Then register itself with each peer registered
         for peer_tuple in peer_set:
