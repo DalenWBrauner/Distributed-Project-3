@@ -12,7 +12,9 @@
 import threading
 from Common import orb
 
+
 class PeerList(object):
+
     """Class that builds a list of objects of the same type as this one."""
 
     def __init__(self, owner):
@@ -36,14 +38,26 @@ class PeerList(object):
         # This should actually handle contacting the nameserver
         # And receiving the list of peers from it.
 
-        self.lock.acquire()
         try:
-            #
-            # Your code here.
-            #
-            pass
-        finally:
+            self.lock.acquire()
+            # Get the owner's access to the name server
+            name_service = self.owner.name_service
+
+            # Get the list of peers from the name service
+            # We get a list of tuples from the name service
+            # of the format (id, addr)
+            peer_set = name_service.get_peers(self.owner.type)
             self.lock.release()
+            
+            # Using the list of tuples, register the peers
+            # Then register itself with each peer registered
+            for peer_tuple in peer_set:
+                peer_id, peer_addr = peer_tuple
+                self.register_peer(peer_id, peer_addr)
+                self.peers[peer_id].register_peer(self.owner.id, self.owner.address)
+
+        finally:
+            
 
     def destroy(self):
         """Unregister this peer from all others in the list."""
