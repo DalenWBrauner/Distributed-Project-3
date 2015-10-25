@@ -87,7 +87,7 @@ class NameServer(object):
         self._check_all_alive(obj_type) # Make sure everyone in our group is still alive
         return "null"
     
-    def require_all(self, obj_type):
+    def get_peers(self, obj_type):
         return list(self._get_group(obj_type))
     
     def _get_group(self, obj_type):
@@ -120,7 +120,7 @@ class NameServer(object):
             group.remove(t)
             self.lock.write_release()
 
-    def get_line(self, conn, peer, obj_type):
+    def _get_line(self, conn, peer, obj_type):
         result = False
         try:
             expected = [peer[0], obj_type]
@@ -146,7 +146,7 @@ class NameServer(object):
         try:
             parent_conn, child_conn = multiprocessing.Pipe(duplex=False)
             p = multiprocessing.Process(
-                target=self.get_line,
+                target=self._get_line,
                 args=(child_conn, peer, obj_type)
             )
             p.daemon = True
