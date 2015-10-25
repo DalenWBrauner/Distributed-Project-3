@@ -125,6 +125,7 @@ def main():
     # Should we slap this in a finally block?
     # Kill our peer object.
     p.destroy()
+    self.peer_list.destroy()
 
 def menu():
     print("""\

@@ -50,10 +50,9 @@ class PeerList(object):
 
         self.lock.acquire()
         try:
-            #
-            # Your code here.
-            #
-            pass
+            # Ask all the other peers to deregister us
+            for fellowPeer in self.peers.keys():
+                self.peers[fellowPeer].unregister_peer(self.owner.id)
         finally:
             self.lock.release()
 
